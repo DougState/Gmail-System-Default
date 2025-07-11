@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide: Set Gmail as Default Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals (Slate, Blue) -->
+    <!-- Application Structure Plan: The SPA is structured as a multi-step interactive guide. This task-oriented approach breaks down the technical process into manageable chunks, preventing information overload. The user is first guided through the universal Windows settings (Step 1), then prompted to select their browser. The application then dynamically displays only the relevant instructions for the chosen browser (Step 2), which is a significant usability improvement over a static document that lists instructions for all browsers. A final screen provides key considerations and a test link to verify the setup. This wizard-like flow simplifies the user journey and increases the likelihood of successful configuration. -->
+    <!-- Visualization & Content Choices: 
+        - Info: Overall Process -> Goal: Guide User -> Method: Interactive Wizard SPA -> Interaction: Step-by-step progression, dynamic content display -> Justification: Simplifies a technical guide, reduces cognitive load, and improves success rate over static text. -> Library/Method: HTML/Tailwind/JS.
+        - Info: Browser Choice -> Goal: Organize/Filter -> Method: Tabbed Interface/Buttons -> Interaction: JS show/hide content sections based on user click -> Justification: Presents only relevant information, preventing confusion. -> Library/Method: HTML/Tailwind/JS.
+        - Info: Configuration Paths (e.g., `chrome://settings/handlers`) -> Goal: Inform -> Method: Styled `<code>` blocks -> Interaction: None. -> Justification: Makes technical strings easy to read and use. -> Library/Method: HTML/Tailwind/JS.
+        - Info: Key Icons (e.g., protocol handler) -> Goal: Inform -> Method: Unicode characters (e.g., ◆) and descriptive text. -> Interaction: None. -> Justification: Provides a visual reference without using image files, adhering to constraints. -> Library/Method: HTML.
+        - Info: Verification -> Goal: Test -> Method: `mailto:` link -> Interaction: User click to test the new default. -> Justification: Provides immediate feedback on whether the process was successful. -> Library/Method: HTML.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .step-card {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex items-center justify-center min-h-screen p-4">
+
+    <main class="w-full max-w-2xl mx-auto space-y-8">
+        <header class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Make Gmail Your Default Email Client</h1>
+            <p class="mt-2 text-slate-600">An interactive guide to setting up Gmail on Windows 10.</p>
+        </header>
+
+        <!-- Step 1: Windows Settings -->
+        <section id="step-1" class="step-card bg-white p-6 md:p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">1</div>
+                <h2 class="ml-4 text-xl md:text-2xl font-bold">Adjust Windows Settings</h2>
+            </div>
+            <p class="text-slate-600 mb-6">
+                The first step is to tell Windows to use your web browser for handling email links. This change happens in the Windows "Default apps" settings. Follow the simple path below to make the change.
+            </p>
+            <ol class="list-decimal list-inside space-y-4 text-slate-700">
+                <li>Press the **Windows Key**, type **"Default apps"**, and press Enter.</li>
+                <li>In the Default apps window, find the **Email** section.</li>
+                <li>Click on the current default app (it might be 'Mail' or 'Outlook').</li>
+                <li>From the list that appears, select the web browser you use most often (e.g., Google Chrome, Mozilla Firefox, Microsoft Edge).</li>
+            </ol>
+            <div class="mt-8 text-center">
+                <button onclick="showStep('step-2')" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                    Next: Configure Your Browser &rarr;
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: Browser Configuration -->
+        <section id="step-2" class="step-card bg-white p-6 md:p-8 rounded-xl shadow-lg hidden">
+            <div class="flex items-center mb-4">
+                 <div class="bg-blue-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">2</div>
+                <h2 class="ml-4 text-xl md:text-2xl font-bold">Configure Your Browser</h2>
+            </div>
+            <p class="text-slate-600 mb-6">
+                Now that your browser is set to handle email links, you need to tell it to use Gmail specifically. The process is slightly different for each browser. Select your browser below to see the specific instructions.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6" id="browser-selector">
+                <button onclick="showBrowserInstructions('chrome')" class="browser-tab bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">Google Chrome</button>
+                <button onclick="showBrowserInstructions('firefox')" class="browser-tab bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">Mozilla Firefox</button>
+                <button onclick="showBrowserInstructions('edge')" class="browser-tab bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">Microsoft Edge</button>
+            </div>
+
+            <div id="instructions-container" class="mt-4 space-y-4">
+                <!-- Chrome Instructions -->
+                <div id="chrome-instructions" class="browser-instructions hidden">
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">Google Chrome Instructions</h3>
+                    <ol class="list-decimal list-inside space-y-3 text-slate-700">
+                        <li>Open Gmail in a new Chrome tab: <a href="https://mail.google.com" target="_blank" class="text-blue-600 hover:underline">mail.google.com</a></li>
+                        <li>In the address bar, look for the protocol handler icon (a double-diamond shape: <span class="font-mono text-blue-600">◆</span>).</li>
+                        <li>Click the icon, select **"Allow"** when asked if `mail.google.com` can open email links, and then click **"Done"**.</li>
+                        <li>If you don't see the icon, go to <code class="bg-slate-100 p-1 rounded-md text-sm">chrome://settings/handlers</code>, ensure the main toggle is ON, and remove `mail.google.com` if it's in the "not allowed" list. Then, reload Gmail.</li>
+                    </ol>
+                </div>
+                <!-- Firefox Instructions -->
+                <div id="firefox-instructions" class="browser-instructions hidden">
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">Mozilla Firefox Instructions</h3>
+                    <ol class="list-decimal list-inside space-y-3 text-slate-700">
+                        <li>Click the menu button (☰) in the top-right corner and select **Settings**.</li>
+                        <li>In the **General** panel, scroll down to the **Applications** section.</li>
+                        <li>Find the **mailto** Content Type in the list.</li>
+                        <li>Click the dropdown menu in the **Action** column next to it and select **Use Gmail**.</li>
+                    </ol>
+                </div>
+                <!-- Edge Instructions -->
+                <div id="edge-instructions" class="browser-instructions hidden">
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">Microsoft Edge Instructions</h3>
+                     <ol class="list-decimal list-inside space-y-3 text-slate-700">
+                        <li>Open Edge settings (the "..." icon) and go to **Cookies and site permissions**.</li>
+                        <li>Scroll down and click on **Protocol handlers**.</li>
+                        <li>Ensure the setting **"Allow sites to ask to become default handlers for protocols"** is turned ON.</li>
+                        <li>Open Gmail in a new tab: <a href="https://mail.google.com" target="_blank" class="text-blue-600 hover:underline">mail.google.com</a></li>
+                        <li>Click the protocol handler icon (<span class="font-mono text-blue-600">◆</span>) in the address bar, select **"Allow"**, and then **"Done"**.</li>
+                    </ol>
+                </div>
+            </div>
+             <div class="mt-8 text-center">
+                <button onclick="showStep('step-3')" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                    Finish & Test &rarr;
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 3: Final Considerations & Test -->
+        <section id="step-3" class="step-card bg-white p-6 md:p-8 rounded-xl shadow-lg hidden">
+            <div class="flex items-center mb-4">
+                 <div class="bg-green-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">&#10003;</div>
+                <h2 class="ml-4 text-xl md:text-2xl font-bold">Setup Complete!</h2>
+            </div>
+            <p class="text-slate-600 mb-6">
+                You've configured your system to use Gmail for email links. Below are a few final points to keep in mind, along with a link to test your new setup.
+            </p>
+            
+            <div class="mb-6 bg-slate-100 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-slate-800 mb-2">Important Considerations</h3>
+                <ul class="list-disc list-inside space-y-2 text-slate-700">
+                    <li>**Web-based vs. Desktop App:** This method directs email links to the Gmail website in your browser, not a standalone desktop application.</li>
+                    <li>**MAPI Compatibility:** Some older desktop programs use a different system (MAPI) to send emails, which may not work with this web-based method. This is generally rare for modern applications.</li>
+                </ul>
+            </div>
+            
+            <div class="text-center">
+                <h3 class="font-semibold text-lg text-slate-800 mb-2">Test Your Setup</h3>
+                <p class="text-slate-600 mb-4">Click the link below. It should open a new Gmail compose window in your browser.</p>
+                <a href="mailto:test@example.com?subject=Success!&body=My new default email is working." class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-600 transition-colors shadow-md inline-block">
+                    Click to Test Mail Link
+                </a>
+            </div>
+            <div class="mt-8 text-center">
+                 <button onclick="showStep('step-1')" class="text-blue-600 hover:underline font-semibold">
+                    &larr; Start Over
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let currentStep = 'step-1';
+
+        function showStep(stepId) {
+            const steps = document.querySelectorAll('.step-card');
+            steps.forEach(step => {
+                step.classList.add('hidden');
+            });
+
+            const targetStep = document.getElementById(stepId);
+            if (targetStep) {
+                targetStep.classList.remove('hidden');
+                currentStep = stepId;
+                window.scrollTo({ top: targetStep.offsetTop - 30, behavior: 'smooth' });
+            }
+        }
+
+        function showBrowserInstructions(browserId) {
+            const instructions = document.querySelectorAll('.browser-instructions');
+            instructions.forEach(inst => {
+                inst.classList.add('hidden');
+            });
+            
+            const targetInstruction = document.getElementById(browserId + '-instructions');
+            if(targetInstruction) {
+                targetInstruction.classList.remove('hidden');
+            }
+
+            const tabs = document.querySelectorAll('.browser-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-blue-600', 'text-white');
+                tab.classList.add('bg-slate-200', 'text-slate-700');
+            });
+
+            const selectedTab = event.target;
+            selectedTab.classList.add('bg-blue-600', 'text-white');
+            selectedTab.classList.remove('bg-slate-200', 'text-slate-700');
+        }
+
+        // Initialize view
+        document.addEventListener('DOMContentLoaded', () => {
+            showStep('step-1');
+        });
+    </script>
+</body>
+</html>
